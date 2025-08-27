@@ -18,6 +18,8 @@ for (let i = 0; i < hearts.length; i++) {
 //coin count and alert
 const coinCounter = document.getElementById("coin-number");
 const callButtons = document.querySelectorAll("#call-btn");
+const callHistory = document.getElementById("call-history");
+
 
 for (let i = 0; i < callButtons.length; i++) {
     callButtons[i].addEventListener("click", function(e) {
@@ -38,6 +40,31 @@ for (let i = 0; i < callButtons.length; i++) {
 
         alert(`📞 Calling ${serviceName}: ${serviceNumber}...`);
 
+        // local time
+        const now = new Date();
+        const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second:'2-digit'});
+
+        //call history design
+        const entry = document.createElement("div");
+        entry.classList.add(
+            "flex", "justify-between", "items-center", 
+            "bg-white", "shadow-md", "rounded-lg", "p-3", "mb-2"
+        );
+        entry.innerHTML = `
+            <div>
+                <p class="font-semibold text-lg">${serviceName}</p>
+                <p class="text-gray-500 text-lg">${serviceNumber}</p>
+            </div>
+            <div class="text-gray-400 text-lg">${timeString}</div>
+        `;
+        callHistory.appendChild(entry);
+
     });
 }
 
+// Clear History
+const clearBtn = document.getElementById("clear-btn");
+
+clearBtn.addEventListener("click", function() {
+    callHistory.innerHTML = "";
+});
