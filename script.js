@@ -48,7 +48,7 @@ for (let i = 0; i < callButtons.length; i++) {
         const entry = document.createElement("div");
         entry.classList.add(
             "flex", "justify-between", "items-center", 
-            "bg-white", "shadow-md", "rounded-lg", "p-3", "mb-2"
+            "bg-[#FAFAFA]", "rounded-lg", "p-3", "mb-2"
         );
         entry.innerHTML = `
             <div>
@@ -68,3 +68,31 @@ const clearBtn = document.getElementById("clear-btn");
 clearBtn.addEventListener("click", function() {
     callHistory.innerHTML = "";
 });
+
+
+//copy count, copy alert and copy number
+const copyCounter = document.getElementById("copy-number");
+let copycount = parseInt(copyCounter.textContent);
+
+const copyBtns = document.querySelectorAll("#copy-btn");
+
+for (let i = 0; i < copyBtns.length; i++) {
+    copyBtns[i].addEventListener('click', function(e) {
+        e.preventDefault();
+
+        copycount++;
+        copyCounter.innerText = copycount;
+
+        const card = copyBtns[i].closest(".card");
+        const serviceNumber = card.querySelector(".service-number").innerText;
+
+        // Copy to clipboard
+        navigator.clipboard.writeText(serviceNumber)
+            .then(() => {
+                alert(`${serviceNumber} Service Number has been copied!`);
+            })
+            .catch(err => {
+                console.error("Failed to copy!", err);
+            });
+    });
+}
